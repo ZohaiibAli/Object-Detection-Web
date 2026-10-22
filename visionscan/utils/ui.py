@@ -42,18 +42,21 @@ def sidebar_settings() -> dict:
     state.setdefault("iou", config.DEFAULT_IOU)
     state.setdefault("classes", list(config.COCO_CLASSES))
 
-    st.sidebar.header("⚙️ Detection settings")
-    model_name = st.sidebar.selectbox("Model", config.MODEL_OPTIONS,
-                                      index=config.MODEL_OPTIONS.index(state["model_name"]))
-    conf = st.sidebar.slider("Confidence threshold", 0.05, 0.95, float(state["conf"]), 0.05)
-    iou = st.sidebar.slider("IoU threshold", 0.10, 0.95, float(state["iou"]), 0.05)
-    classes = st.sidebar.multiselect("Classes to detect", config.COCO_CLASSES, default=state["classes"])
+    st.sidebar.markdown('<div class="side-title">Detection settings</div>', unsafe_allow_html=True)
+    with st.sidebar.container(border=True):
+        model_name = st.selectbox("Model", config.MODEL_OPTIONS,
+                                  index=config.MODEL_OPTIONS.index(state["model_name"]))
+        conf = st.slider("Confidence threshold", 0.05, 0.95, float(state["conf"]), 0.05)
+        iou = st.slider("IoU threshold", 0.10, 0.95, float(state["iou"]), 0.05)
+        classes = st.multiselect("Classes to detect", config.COCO_CLASSES, default=state["classes"])
 
     # save back so the values survive when the user switches page
     state.update(model_name=model_name, conf=conf, iou=iou, classes=classes)
 
     if not classes:
         st.sidebar.warning("No class selected - all classes will be used.")
+    st.sidebar.markdown('<div class="side-footer">YOLOv8 · CPU inference<br>Settings are kept across pages</div>',
+                        unsafe_allow_html=True)
     return {
         "model_name": model_name,
         "conf": conf,

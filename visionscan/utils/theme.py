@@ -50,6 +50,34 @@ section[data-testid="stSidebar"] {
     border-right: 1px solid %(border)s;
 }
 
+/* sidebar: brand, nav pills, settings card */
+[data-testid="stSidebarNav"]::before {
+    content: "VisionScan"; display: block; padding: 0.4rem 1rem 1rem;
+    font-size: 1.45rem; font-weight: 800; letter-spacing: -0.02em;
+    background: linear-gradient(90deg, #5b3df5, #c026d3); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+[data-testid="stSidebarNav"] ul { gap: 0.2rem; padding: 0 0.4rem; }
+[data-testid="stSidebarNav"] a {
+    border-radius: 999px; padding: 0.45rem 1rem; transition: background 0.15s;
+}
+[data-testid="stSidebarNav"] a:hover { background: %(pill)s; }
+[data-testid="stSidebarNav"] a[aria-current="page"] {
+    background: linear-gradient(135deg, #4f46e5, #7c3aed);
+    box-shadow: 0 6px 16px rgba(99,66,235,0.35);
+}
+[data-testid="stSidebarNav"] a[aria-current="page"] p { color: #fff !important; font-weight: 600; }
+/* the entry file is called "app"; show it as "Home" */
+[data-testid="stSidebarNav"] li:first-child a p { font-size: 0 !important; }
+[data-testid="stSidebarNav"] li:first-child a p::after { content: "Home"; font-size: 1rem; }
+.side-title { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: %(muted)s; margin: 0.8rem 0 0.4rem 0.2rem; }
+section[data-testid="stSidebar"] div[data-testid="stVerticalBlockBorderWrapper"] {
+    background: %(card)s; border: 1px solid %(border)s; border-radius: 18px; box-shadow: %(shadow)s;
+}
+.side-footer { margin-top: 1rem; padding: 0.7rem 0.9rem; border-radius: 14px; background: %(pill)s;
+    color: %(muted)s; font-size: 0.78rem; line-height: 1.5; text-align: center; }
+
 /* headline with an italic serif accent, like the reference design */
 .eyebrow {
     display: inline-block; padding: 0.3rem 0.9rem; border-radius: 999px;
