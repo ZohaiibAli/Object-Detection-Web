@@ -51,3 +51,8 @@ git push -u origin main
 - [ ] Live app link (Streamlit Cloud, or Hugging Face as backup)
 - [ ] Screenshots added to `README.md`
 - [ ] Team / Author section in `pages/5_About.py` filled in
+
+## Note: app inside a sub-folder
+If the repo root is *above* `visionscan/` (main file path `visionscan/app.py`), Streamlit Cloud only reads
+`packages.txt` from the **repo root**. Keep a copy of `packages.txt` there (with `libgl1` and `libglib2.0-0`),
+otherwise `import cv2` fails with an `ImportError` (missing libGL).
