@@ -9,9 +9,10 @@ import streamlit as st
 from backend import config
 from backend.database import save_record
 from backend.video_utils import process_video
+from utils.theme import style_fig
 from utils.ui import count_chart, get_model, setup_page, sidebar_settings
 
-setup_page("🎬 Video Detection", "Upload a short video and detect objects in every frame.")
+setup_page("Detect objects in <em>video</em>", "Upload a short video and detect objects in every frame.", eyebrow="Video detection")
 settings = sidebar_settings()
 
 st.info(f"To stay fast on the free cloud tier only the first {config.MAX_VIDEO_SECONDS} seconds "
@@ -62,7 +63,7 @@ if result:
         left, right = st.columns(2)
         per_frame = pd.DataFrame({"frame": range(len(summary["detections_per_frame"])),
                                   "detections": summary["detections_per_frame"]})
-        left.plotly_chart(px.line(per_frame, x="frame", y="detections", title="Detections per processed frame"),
+        left.plotly_chart(style_fig(px.line(per_frame, x="frame", y="detections", title="Detections per processed frame")),
                           width="stretch")
         right.plotly_chart(count_chart(summary["class_counts"], "Detections per class"),
                            width="stretch")

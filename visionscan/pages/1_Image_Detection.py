@@ -8,7 +8,7 @@ from backend.database import save_record
 from utils.ui import (class_counts, decode_image, run_image_detection, setup_page,
                       show_image_results, sidebar_settings)
 
-setup_page("🖼️ Image Detection", "Upload an image or choose a sample.")
+setup_page("Detect objects in <em>any image</em>", "Upload an image or choose a sample.", eyebrow="Image detection")
 settings = sidebar_settings()
 
 uploaded = st.file_uploader("Upload an image", type=config.ALLOWED_IMAGE_TYPES)

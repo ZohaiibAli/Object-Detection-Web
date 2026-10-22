@@ -5,7 +5,7 @@ import streamlit as st
 from backend.config import COCO_CLASSES
 from utils.ui import setup_page
 
-setup_page("ℹ️ About VisionScan", "A computer-vision course project.")
+setup_page("About <em>VisionScan</em>", "A computer-vision course project.", eyebrow="About")
 
 st.header("Overview")
 st.write("VisionScan detects objects in images, videos and webcam photos using a pretrained "

@@ -5,7 +5,7 @@ from backend.database import save_record
 from utils.ui import (class_counts, decode_image, run_image_detection, setup_page,
                       show_image_results, sidebar_settings)
 
-setup_page("📷 Webcam Detection", "Take a photo with your camera and detect objects in it.")
+setup_page("Detect objects with your <em>webcam</em>", "Take a photo with your camera and detect objects in it.", eyebrow="Webcam detection")
 settings = sidebar_settings()
 
 st.markdown("1. Allow camera access in your browser.  \n"

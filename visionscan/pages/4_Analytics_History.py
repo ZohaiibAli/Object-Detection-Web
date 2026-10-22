@@ -6,9 +6,10 @@ import plotly.express as px
 import streamlit as st
 
 from backend.database import clear_history, get_history
+from utils.theme import style_fig
 from utils.ui import setup_page
 
-setup_page("📊 Analytics & History", "Everything detected so far.")
+setup_page("Your detection <em>analytics</em>", "Everything detected so far.", eyebrow="Analytics & history")
 
 history = get_history()
 if history.empty:
@@ -34,16 +35,16 @@ history["date"] = pd.to_datetime(history["timestamp"]).dt.date
 left, middle, right = st.columns(3)
 
 runs_per_day = history.groupby("date").size().reset_index(name="runs")
-left.plotly_chart(px.line(runs_per_day, x="date", y="runs", markers=True, title="Runs over time"),
+left.plotly_chart(style_fig(px.line(runs_per_day, x="date", y="runs", markers=True, title="Runs over time")),
                   width="stretch")
 
 per_source = history.groupby("source_type")["num_objects"].sum().reset_index()
-middle.plotly_chart(px.bar(per_source, x="source_type", y="num_objects", color="source_type",
-                           title="Objects per source type"), width="stretch")
+middle.plotly_chart(style_fig(px.bar(per_source, x="source_type", y="num_objects", color="source_type",
+                                     title="Objects per source type")), width="stretch")
 
 top = sorted(class_totals.items(), key=lambda item: item[1], reverse=True)[:10]
 top_df = pd.DataFrame(top, columns=["class", "count"])
-right.plotly_chart(px.bar(top_df, x="class", y="count", color="class", title="Top 10 classes"),
+right.plotly_chart(style_fig(px.bar(top_df, x="class", y="count", color="class", title="Top 10 classes")),
                    width="stretch")
 
 # History table

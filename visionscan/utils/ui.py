@@ -10,37 +10,22 @@ from PIL import Image
 
 from backend import config
 from backend.detector import detect_objects, load_model
+from utils.theme import inject_css, style_fig
 
-CSS = """
-<style>
-.gradient-title {
-    font-size: 2.6rem; font-weight: 800;
-    background: linear-gradient(90deg, #6366f1, #ec4899);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-}
-.subtitle { font-size: 1.1rem; opacity: 0.75; margin-bottom: 1rem; }
-.card {
-    border: 1px solid rgba(128,128,128,0.3); border-radius: 14px;
-    padding: 1.1rem 1.3rem; height: 100%;
-    background: rgba(128,128,128,0.07);
-}
-.card h3 { margin-top: 0; }
-div[data-testid="stMetric"] {
-    border: 1px solid rgba(128,128,128,0.3); border-radius: 12px;
-    padding: 0.8rem 1rem; background: rgba(128,128,128,0.07);
-}
-.stButton > button, .stDownloadButton > button { border-radius: 10px; font-weight: 600; }
-</style>
-"""
+def setup_page(title: str, subtitle: str = "", eyebrow: str = "VisionScan", hero: bool = False) -> None:
+    """Page config + theme CSS + header. Call first on every page.
 
-
-def setup_page(title: str, subtitle: str = "") -> None:
-    """Page config + CSS + gradient header. Call first on every page."""
+    Wrap a word of the title in <em>...</em> to get the italic serif accent.
+    """
     st.set_page_config(page_title="VisionScan", page_icon="🎯", layout="wide")
-    st.markdown(CSS, unsafe_allow_html=True)
-    st.markdown(f'<div class="gradient-title">{title}</div>', unsafe_allow_html=True)
-    if subtitle:
-        st.markdown(f'<div class="subtitle">{subtitle}</div>', unsafe_allow_html=True)
+    inject_css()
+    box = "hero" if hero else ""
+    st.markdown(
+        f'<div class="{box}"><span class="eyebrow">{eyebrow}</span>'
+        f'<div class="page-title">{title}</div>'
+        f'<div class="subtitle">{subtitle}</div></div>',
+        unsafe_allow_html=True,
+    )
 
 
 @st.cache_resource(show_spinner="Loading YOLOv8 model...")
@@ -100,7 +85,7 @@ def count_chart(counts: dict, title: str = "Objects per class"):
     data = pd.DataFrame({"class": list(counts.keys()), "count": list(counts.values())})
     fig = px.bar(data, x="class", y="count", title=title, color="class")
     fig.update_layout(showlegend=False)
-    return fig
+    return style_fig(fig)
 
 
 def show_image_results(annotated_rgb, df: pd.DataFrame, inference_ms: float, name: str) -> None:
